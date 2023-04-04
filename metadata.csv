@@ -1,0 +1,31 @@
+﻿Sample,Azithromycin_Resistance,Sex,MSM,tprk_donor_site_deletion,strain,IV_drug_usage,Meth_used_in_past_year,age_cat,race,Sample_Swab_Location,Disease_Stage
+NC_021508,Yes,Unknown,Unknown,No,SS14,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown
+UW16057L,Yes,M,Y,No,SS14,Unknown,N,55-64,white,Lesion,Primary
+P2120116,Yes,M,Y,No,SS14,Y,N,30-34,Black,Throat,Primary
+P2120120,Yes,F,N/A,No,SS14,Unknown,Y,30-34,White,Throat,Late or unknown duration
+R2210209,Yes,F,N/A,No,SS14,Y,Y,30-34,Unknown,Rectal,Primary
+UW15970L,Yes,M,N,No,SS14,Unknown,N,55-64,NHPI,Lesion,Primary
+V2140001,Yes,F,N/A,No,SS14,Y,Unknown,35-44,Hispanic,Vaginal,Secondary
+V2140005,Yes,F,N/A,No,SS14,Y,Y,25-29,White,Vaginal,Primary
+R2110091,Yes,M,Y,No,SS14,N,N,45-54,White,Rectal,Primary
+UW15939,Yes,M,N,No,SS14,Unknown,Y,45-54,white,Lesion,Primary
+R2110052,Yes,M,Y,No,SS14,N,N,45-54,White,Rectal,Late or unknown duration
+NC_021490,No,Unknown,Unknown,No,Nichols,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown
+P2220198,Yes,M,Y,No,Nichols,Unknown,Unknown,30-34,Asian,Throat,Secondary
+R2210139,Yes,M,Y,No,Nichols,Unknown,Unknown,30-34,Asian,Rectal,Secondary
+P2120119,Yes,M,Y,No,Nichols,Unknown,Unknown,30-34,White,Throat,Primary
+P2220006,Yes,M,Y,No,Nichols,Y,N,25-29,Hispanic,Throat,Primary
+P2220227,Yes,M,Y,No,Nichols,N,N,25-29,White,Throat,Secondary
+R2110111,Yes,M,Y,No,Nichols,Unknown,Unknown,20-24,Asian,Rectal,Secondary
+R2110099,Yes,M,Y,No,Nichols,Unknown,Unknown,25-29,Hispanic,Rectal,Early latent
+P2120167,Yes,M,Y,Yes,Nichols,Y,N,20-24,White,Throat,Secondary
+UW15953,Yes,M,Y,No,Nichols,Unknown,N,35-44,asian,Unknown,Secondary
+P2220168,Yes,M,Y,Yes,Nichols,Y,N,35-44,White,Throat,Secondary
+UW15993L,Yes,M,Y,Yes,Nichols,Unknown,Y,35-44,white,Papule near anus,Secondary
+UW15977O,Yes,M,Y,No,Nichols,Unknown,Y,25-29,white,Oral,Primary
+V2140014,Yes,F,N/A,No,SS14,Unknown,Y,20-24,Hispanic,Vaginal,Late or unknown duration
+P2120135,Yes,M,Y,No,Nichols,Unknown,Unknown,20-24,Asian,Throat,Secondary
+P2220282,Yes,F,N/A,No,SS14,Unknown,Y,30-34,Unknown,Throat,Primary
+V2140015,Yes,F,N/A,No,SS14,Unknown,Y,35-44,Black,Vaginal,Secondary
+R2110122,Yes,M,Y,No,Nichols,Unknown,Unknown,30-34,White,Rectal,Early latent
+P2120045,Yes,M,Y,No,Nichols,Unknown,N,45-54,Hispanic,Throat,Secondary
