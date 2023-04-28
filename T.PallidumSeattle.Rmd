@@ -1,0 +1,901 @@
+---
+title: "T Pallidum Seattle"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+date: "2023-04-27"
+---
+
+<!-- #Script to write tree; Fig 2 -->
+```{r fig2all, fig.height=7, fig.width=6, message=FALSE, warning=FALSE}
+
+library(tidyverse)
+library(treeio)
+library(ggtree)
+library(phytools)
+library(cowplot)
+library(viridis)
+library(phylotools)
+library(Biostrings)
+library(ggheatmap)
+library(reshape2)
+library(wesanderson)
+library(ghibli)
+library(dutchmasters)
+library(gplots)
+library(ggplot2)
+library(dplyr)
+library(ape)
+library(ggrepel)
+
+tree <-
+  treeio::read.tree(
+    "/Users/administrator/Desktop/Matt_G_TP/Seattle_4_20_23/Version2/combined_2_MoreMask_04_20_23.fasta.treefile"
+  )
+
+tree <- midpoint.root(tree)
+
+tree$edge.length <- tree$edge.length * (1143784 - 28602)
+
+fort <- fortify(tree)
+
+#for labeling 95% bootstrap support
+q <- ggtree(tree)
+d <- q$data %>% filter(isTip == FALSE)# %>% arrange(desc(y))
+
+x <- filter(fort, isTip == TRUE)
+x <- arrange(x, y)
+tips <- x[, c(4, 7)]
+q
+
+d$label <- as.numeric(d$label)
+d <- d[d$label > 90, ]
+
+ggtree_object <- ggtree(tree, size = .5) +
+  theme_tree2() +
+  geom_tiplab(align = TRUE,
+              linesize = .25,
+              size = 3) +
+  geom_point2(
+    aes(
+      label = label,
+      subset = !is.na(as.numeric(label)) &
+        as.numeric(label) > 90
+    ),
+    size = 1,
+    color = "red"
+  ) +
+  labs(x = "SNPs", size = 6, face = "bold") +
+  coord_cartesian(clip = "off") +
+  xlim(c(0, 250)) +
+  scale_x_continuous(breaks = seq(0, 200, by = 50)) +
+  theme(
+    axis.line.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.text.x = element_text(size = 6, face = "bold"),
+    axis.title.x = element_text(size = 8, face = "bold", line = 0),
+    axis.line = element_line(size = .5),
+    plot.margin = margin(0, 1.5, 0, 0, "cm")
+  )
+
+print(d$node)
+
+ggtree_object <- ggtree::rotate(ggtree_object, 40)
+
+print(tips$label)
+
+metadata <-
+  read.csv(
+    "/Users/administrator/Desktop/Matt_G_TP/Matt_G_SeattleSix_New_03032023/Masking_Regions/masked_regions/wholeGeome/WG_Tree/ggtree/metadata.csv",
+    header = TRUE
+  )
+
+lapply(metadata, table)
+
+sample_order <- tips$label
+
+metadata$Sample <- factor(metadata$Sample, levels = sample_order)
+
+ggplot_object <-
+  ggplot(metadata, aes(y = Sample, x = .5, fill = strain)) +
+  geom_tile(width = 0.5) +
+  scale_fill_manual(values = c(`SS14` = "#B50A2A",
+                               `Nichols` = "#0E84B4")) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text.x = element_blank(),
+    axis.line = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.title.x = element_text(
+      angle = 90,
+      size = 7,
+      vjust = .55,
+      hjust = 0,
+      face = "bold"
+    ),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.key.size = unit(.35, unit = "cm"),
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 10),
+    plot.margin = unit(c(0, 0, 0, 0), "cm")
+  ) +
+  xlab("                             Lineage") +
+  guides(fill = guide_legend(title = "Lineage"))
+
+ggplot_object
+
+ggplot_object2 <-
+  ggplot(metadata, aes(y = Sample, x = .25, fill = Azithromycin_Resistance)) +
+  geom_tile() +
+  scale_fill_manual(values = c(`Yes` = "grey8",
+                               `No` = "grey85")) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text.x = element_blank(),
+    axis.line = element_blank(),
+    #legend.position = "none",
+    axis.ticks.y = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.title.x = element_text(
+      angle = 90,
+      size = 7,
+      vjust = .55,
+      hjust = 0,
+      face = "bold"
+    ),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.key.size = unit(.35, unit = "cm"),
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 10),
+    plot.margin = unit(c(0, 0, 0, 0), "cm")
+  ) +
+  guides(fill = guide_legend(title = "AZ Resistance")) +
+  xlab("Azithromycin Resistance")
+
+ggplot_object3 <-
+  ggplot(metadata, aes(y = Sample, x = .25, fill = Sex)) +
+  geom_tile() +
+  scale_fill_manual(values = c(
+    `Unknown` = "white",
+    `Cultured` = "grey",
+    `M` = "#FFFF99",
+    `F` = "#FFCC00"
+  )) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text.x = element_blank(),
+    axis.line = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.title.x = element_text(
+      angle = 90,
+      size = 7,
+      vjust = .55,
+      hjust = 0,
+      face = "bold"
+    ),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.key.size = unit(.35, unit = "cm"),
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 10),
+    plot.margin = unit(c(0, 0, 0, 0), "cm")
+  ) +
+  xlab("                                   Sex") +
+  guides(fill = guide_legend(title = "Sex"))
+
+ggplot_object4 <-
+  ggplot(metadata, aes(y = Sample, x = .25, fill = MSM)) +
+  geom_tile() +
+  
+  theme_minimal() +
+  scale_fill_manual(
+    values = c(
+      `Unknown` = "white",
+      `Cultured` = "grey",
+      `N` = "#C6FFC1",
+      `Y` = "#006400",
+      `N/A` = "white"
+    )
+  ) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text.x = element_blank(),
+    axis.line = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.title.x = element_text(
+      angle = 90,
+      size = 7,
+      vjust = .55,
+      hjust = 0,
+      face = "bold"
+    ),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.key.size = unit(.35, unit = "cm"),
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 10),
+    plot.margin = unit(c(0, 0, 0, 0), "cm")
+  ) +
+  xlab("                                 MSM") +
+  guides(fill = guide_legend(title = "MSM"))
+
+ggplot_object4
+
+ggplot_object5 <-
+  ggplot(metadata, aes(y = Sample, x = .25, fill = tprk_donor_site_deletion)) +
+  geom_tile() +
+  scale_fill_manual(values = c(`No` = "#D7BDE2", `Yes` = "#6C3483")) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text.x = element_blank(),
+    axis.line = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.title.x = element_text(
+      angle = 90,
+      size = 7,
+      vjust = .55,
+      hjust = 0,
+      face = "bold"
+    ),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.key.size = unit(.35, unit = "cm"),
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 10),
+    plot.margin = unit(c(0, 0, 0, 0), "cm")
+  ) +
+  xlab("Tprk Donor Site Deletion") +
+  guides(fill = guide_legend(title = "Tprk Donor Site Deletion"))
+
+ggplot_object6 <-
+  ggplot(metadata, aes(y = Sample, x = .25, fill = IV_drug_usage)) +
+  geom_tile() +
+  scale_fill_manual(
+    values = c(
+      `Unknown` = "white",
+      `Cultured Isolate` = "grey",
+      `N` = "#ADD8E6",
+      `Y` = "#000080"
+    )
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text.x = element_blank(),
+    axis.line = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.title.x = element_text(
+      angle = 90,
+      size = 7,
+      vjust = .55,
+      hjust = 0,
+      face = "bold"
+    ),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.key.size = unit(.35, unit = "cm"),
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 10),
+    plot.margin = unit(c(0, 0, 0, 0), "cm")
+  ) +
+  xlab("                 IV Drug Usage") +
+  guides(fill = guide_legend(title = "IV Drug Usage"))
+
+ggplot_object7 <-
+  ggplot(metadata, aes(y = Sample, x = .25, fill = Meth_used_in_past_year)) +
+  geom_tile() +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text.x = element_blank(),
+    axis.line = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.title.x = element_text(
+      angle = 90,
+      size = 7,
+      vjust = .55,
+      hjust = 0,
+      face = "bold"
+    ),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.key.size = unit(.35, unit = "cm"),
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 10),
+    plot.margin = unit(c(0, 0, 0, 0), "cm")
+  ) +
+  xlab("Meth used in past year") +
+  guides(fill = guide_legend(title = "Meth used in past year"))
+
+ggplot_object8 <-
+  ggplot(metadata, aes(y = Sample, x = .25, fill = age_cat)) +
+  geom_tile() +
+  scale_fill_manual(
+    values = c(
+      `Cultured` = "grey10",
+      `Unknown` = "white",
+      `20-24` = "gray20",
+      `25-29` = "gray35",
+      `30-34` = "gray50",
+      `35-44` = "gray65",
+      `45-54` = "gray80",
+      `55-64` = "gray95"
+    )
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text.x = element_blank(),
+    axis.line = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.title.x = element_text(
+      angle = 90,
+      size = 7,
+      vjust = .55,
+      hjust = 0,
+      face = "bold"
+    ),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.key.size = unit(.35, unit = "cm"),
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 10),
+    plot.margin = unit(c(0, 0, 0, 0), "cm")
+  ) +
+  xlab("age cat")
+
+ggplot_object9 <-
+  ggplot(metadata, aes(y = Sample, x = .25, fill = race)) +
+  geom_tile() +
+  scale_fill_dutchmasters(palette = "milkmaid") +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text.x = element_blank(),
+    axis.line = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.title.x = element_text(
+      angle = 90,
+      size = 7,
+      vjust = .55,
+      hjust = 0,
+      face = "bold"
+    ),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.key.size = unit(.35, unit = "cm"),
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 10),
+    plot.margin = unit(c(0, 0, 0, 0), "cm")
+  ) +
+  xlab("Race")
+
+ggplot_object10 <-
+  ggplot(metadata, aes(y = Sample, x = .25, fill = Sample_Swab_Location)) +
+  geom_tile() +
+  scale_fill_manual(
+    values = c(
+      `Unknown` = "white",
+      `Cultured Isolate` = "grey",
+      `Lesion` = "orange4",
+      `Throat` = "orange3",
+      `Rectal` = "#FFE5B4",
+      `Vaginal` = "#FF4500"
+    )
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text.x = element_blank(),
+    axis.line = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.title.x = element_text(
+      angle = 90,
+      size = 7,
+      vjust = .55,
+      hjust = 0,
+      face = "bold"
+    ),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.key.size = unit(.35, unit = "cm"),
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 10),
+    plot.margin = unit(c(0, 0, 0, 0), "cm")
+  ) +
+  xlab("   Sample Swab Location") +
+  guides(fill = guide_legend(title = "Sample Swab Location"))
+
+print(ggplot_object10)
+
+ggplot_object11 <-
+  ggplot(metadata, aes(y = Sample, x = .25, fill = Disease_Stage)) +
+  geom_tile() +
+  scale_fill_manual(
+    values = c(
+      `Unknown` = "white",
+      `Cultured Isolate` = "grey",
+      `Late or Unknown duration` = "#F44336",
+      `Primary` = "#FFCDD2",
+      `Early latent` = "#E57373",
+      `Secondary` = "#EF9A9A"
+    )
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text.x = element_blank(),
+    axis.line = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.title.x = element_text(
+      angle = 90,
+      size = 7,
+      vjust = .55,
+      hjust = 0,
+      face = "bold"
+    ),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.key.size = unit(.35, unit = "cm"),
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 10),
+    plot.margin = unit(c(0, 0, 0, 0), "cm")
+  ) +
+  xlab("                 Disease Stage") +
+  guides(fill = guide_legend(title = "Disease Stage"))
+
+print(ggplot_object)
+print(ggplot_object2)
+print(ggplot_object3)
+print(ggplot_object4)
+print(ggplot_object5)
+print(ggplot_object6)
+print(ggplot_object7)
+print(ggplot_object8)
+print(ggplot_object9)
+print(ggplot_object10)
+print(ggplot_object11)
+
+p1 <-  get_legend(ggplot_object)
+p2 <-  get_legend(ggplot_object2)
+p3 <-  get_legend(ggplot_object3)
+p4 <-  get_legend(ggplot_object4)
+p5 <-  get_legend(ggplot_object5)
+p6 <-  get_legend(ggplot_object6)
+p7 <-  get_legend(ggplot_object7)
+p8 <-  get_legend(ggplot_object8)
+p9 <-  get_legend(ggplot_object9)
+p10 <-  get_legend(ggplot_object10)
+p11 <-  get_legend(ggplot_object11)
+
+ggplot_object  <-  ggplot_object + theme(legend.position = "none")
+ggplot_object2 <-  ggplot_object2 + theme(legend.position = "none")
+ggplot_object3 <-  ggplot_object3 + theme(legend.position = "none")
+ggplot_object4 <-  ggplot_object4 + theme(legend.position = "none")
+ggplot_object5 <-  ggplot_object5 + theme(legend.position = "none")
+ggplot_object6 <-  ggplot_object6 + theme(legend.position = "none")
+ggplot_object7 <-  ggplot_object7 + theme(legend.position = "none")
+ggplot_object8 <-  ggplot_object8 + theme(legend.position = "none")
+ggplot_object9 <-  ggplot_object9 + theme(legend.position = "none")
+ggplot_object10 <-
+  ggplot_object10 + theme(legend.position = "none")
+ggplot_object11 <-
+  ggplot_object11 + theme(legend.position = "none")
+
+fig2all <-
+  plot_grid(
+    ggtree_object,
+    ggplot_object,
+    ggplot_object2,
+    ggplot_object11,
+    ggplot_object10,
+    ggplot_object3,
+    ggplot_object4,
+    ggplot_object6,
+    ggplot_object5,
+    ncol = 9,
+    align = "h",
+    rel_widths = c(.2, .01, .01, .01, .01, .01, .01, .01, .01)
+  )
+
+pdf(file = "~/Desktop/WG_Tree.pdf",
+    # The directory you want to save the file in
+    width = 7,
+    # The width of the plot in inches
+    height = 6)
+
+fig2all
+dev.off()
+
+legendGroup4 <-
+  plot_grid(
+    p3,
+    p4,
+    p6,
+    p5,
+    ncol = 4,
+    align = "h",
+    rel_widths = c(1, 1, 1, 1)
+  )
+legendGroup5 <-
+  plot_grid(
+    p1,
+    p2,
+    p11,
+    p10,
+    ncol = 4,
+    align = "h",
+    rel_widths = c(1, 1, 1, 1)
+  )
+legendGroup3 <-
+  plot_grid(
+    legendGroup5,
+    legendGroup4,
+    ncol = 1,
+    align = "v",
+    rel_widths = c(1, 1)
+  )
+
+fig2all <-
+  plot_grid(
+    fig2all,
+    legendGroup3,
+    ncol = 1,
+    align = "v",
+    rel_heights = c(1, .2)
+  )
+
+pdf(file = "~/Desktop/WG_Legend.pdf",
+    # The directory you want to save the file in
+    width = 7,
+    # The width of the plot in inches
+    height = 2)
+
+legendGroup3
+dev.off()
+
+```
+
+#Ttime vs copies graph; Fig 1
+```{r fig2all_2, fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+
+library(ggeasy)
+library(ggpmisc)
+library(ggtext)
+
+MetaData_DF <-
+  read.csv("/Users/administrator/Downloads/TprK_04032023_Reextracts.csv")
+
+a <-
+  ggplot(MetaData_DF, aes(x = log_Copies_TP47_CT, y = Tp_TMA_FAM_Time)) +
+  geom_point(aes(color = Complete_Genome_for_phylo)) +
+  theme_minimal() +
+  theme(
+    axis.line = element_line(colour = "black"),
+    panel.border = element_rect(
+      colour = "black",
+      fill = NA,
+      size = .5
+    )
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    axis.text = element_text(size = 10),
+    axis.title = element_text(size = 10),
+    legend.text = element_text(size = 7),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border = element_blank(),
+    legend.position = c(.75, .1),
+    legend.spacing.x = unit(0.01, "cm"),
+    legend.key.height = unit(0.1, "cm"),
+    legend.key.width = unit(0.4, "cm"),
+    axis.ticks = element_line(size = 0.5, color = "black"),
+    axis.ticks.length = unit(0.35, "cm"),
+    axis.ticks.margin = unit(0.01, "cm")
+  ) +
+  labs(shape = "chain") +
+  geom_smooth(
+    method = "lm",
+    se = FALSE,
+    linetype = "dashed",
+    color = "grey"
+  ) +
+  ylab("TMA Time (min)") +
+  labs(color = "Complete Genome") +
+  labs(color = NULL) +
+  guides(color = guide_legend(reverse = TRUE)) +
+  scale_y_reverse(limits = c(25, 5)) +
+  scale_x_continuous(
+    limits = c(0, 4),
+    breaks = c(0, 1, 2, 3, 4),
+    minor_breaks = seq(.5, 1.5, 2.5),
+    labels = c(
+      expression(10 ^ 0),
+      expression(10 ^ 1),
+      expression(10 ^ 2),
+      expression(10 ^ 3),
+      expression(10 ^ 4)
+    )
+  ) +
+  scale_color_manual(
+    values = c(
+      "Y" = "palegreen3",
+      "N" = "lightcoral",
+      "N/A" = "paleturquoise3"
+    ),
+    breaks = c("N/A", "N", "Y"),
+    labels = c("Y" = "Complete Genome", "N" = "Incomplete Genome", "N/A" = "Not Attempted")
+  ) +
+  xlab(expression(paste(
+    italic("tp47"), " copies/\u00b5L extracted DNA"
+  )))
+cor.test(
+  MetaData_DF$log_Copies_TP47_CT,
+  MetaData_DF$Tp_TMA_FAM_Time,
+  method = "pearson",
+  conf.level = 0.95
+)
+
+pdf(file = "~/Desktop/qPCR vs rTMA value.pdf",
+    # The directory you want to save the file in
+    width = 3,
+    # The width of the plot in inches
+    height = 3)
+a
+
+dev.off()
+
+print(a)
+
+```
+#summary table 
+```{r setup, include=FALSE}
+
+library(dplyr)
+library(gtsummary)
+library(table1)
+library(gt)
+library(stargazer)
+library(tidyverse)
+
+metadata2 <-
+  read.csv(
+    "/Users/administrator/Desktop/Matt_G_TP/Matt_G_SeattleSix_New_03032023/Masking_Regions/masked_regions/wholeGeome/WG_Tree/ggtree/metadata_NoReferences.csv",
+    header = TRUE
+  )
+
+variable_labels <- c(
+  Azithromycin_Resistance = "Azithromycin Resistance",
+  Sex = "Sex",
+  MSM = "MSM",
+  tprk_donor_site_deletion = "tprk Donor Site Deletion",
+  strain = "Strain",
+  IV_drug_usage = "IV Drug Usage",
+  Meth_used_in_past_year = "Meth Used in Past Year",
+  age_cat = "Age Category",
+  race = "Race",
+  Sample_Swab_Location = "Sample Swab Location",
+  Disease_Stage = "Disease Stage"
+)
+
+sum <-
+  tbl_summary(metadata2, missing = "no", label = variable_labels)
+
+```
+
+#SNP distances caluculator
+```{r setup, include=FALSE}
+
+SNP_Dist <-
+  read.csv(
+    "/Users/administrator/Desktop/Seattle_TP_Paper/SNP_Dist_molten.tsv",
+    header = FALSE,
+    sep = "\t",
+    skip = 1
+  )
+metadata_old <-
+  read.csv(
+    "/Users/administrator/Desktop/Matt_G_TP/Matt_G_SeattleSix_New_03032023/Masking_Regions/masked_regions/wholeGeome/WG_Tree/ggtree/metadata_old.csv",
+    header = TRUE
+  )
+
+SNP_Dist[, 1:2] <- t(apply(SNP_Dist[, 1:2], 1, function(x)
+  sort(x)))
+
+print(metadata)
+
+# Remove duplicate rows
+SNP_Dist <- unique(SNP_Dist)
+
+print(SNP_Dist)
+
+# Subset the data into two groups based on the strain column
+ss14_data <- subset(metadata_old, strain == "SS14")
+nicols_data <- subset(metadata_old, strain == "Nichols")
+
+print(ss14_data)
+
+SNP_Dist_NoReference <-
+  SNP_Dist[!(SNP_Dist$V1 == "NC_021490" |
+               SNP_Dist$V2 == "NC_021490"),]
+SNP_Dist_NoReference <-
+  SNP_Dist_NoReference[!(SNP_Dist_NoReference$V1 == "NC_021508" |
+                           SNP_Dist_NoReference$V2 == "NC_021508"),]
+
+# filter the dataset to include only rows where both sample 1 and sample 2 are present in the dataset
+filtered_dataset_ss14 <-
+  SNP_Dist_NoReference[SNP_Dist_NoReference$V1 %in% ss14_data$Sample &
+                         SNP_Dist_NoReference$V2 %in% ss14_data$Sample,]
+print(filtered_dataset_ss14)
+
+filtered_dataset_nicols_data <-
+  SNP_Dist_NoReference[SNP_Dist_NoReference$V1 %in% nicols_data$Sample &
+                         SNP_Dist_NoReference$V2 %in% nicols_data$Sample,]
+print(filtered_dataset_nicols_data)
+
+#remove sample pairs
+filtered_dataset_nicols_data <-
+  filtered_dataset_nicols_data[!(
+    filtered_dataset_nicols_data$V1 == "R2110111" |
+      filtered_dataset_nicols_data$V2 == "R2110111"
+  ),]
+filtered_dataset_nicols_data <-
+  filtered_dataset_nicols_data[!(
+    filtered_dataset_nicols_data$V1 == "R2210139" |
+      filtered_dataset_nicols_data$V2 == "R2210139"
+  ),]
+filtered_dataset_ss14 <-
+  filtered_dataset_ss14[!(filtered_dataset_ss14$V1 == "P2220282" |
+                            filtered_dataset_ss14$V2 == "P2220282"),]
+
+average_ss14 <- mean(filtered_dataset_ss14$V3)
+average_nicols <- mean(filtered_dataset_nicols_data$V3)
+
+print(average_ss14)
+
+print(average_nicols)
+
+filtered_dataset_nicols_data_noOutlier <-
+  filtered_dataset_nicols_data[!(
+    filtered_dataset_nicols_data$V1 == "R2210139" |
+      filtered_dataset_nicols_data$V2 == "R2210139"
+  ),]
+filtered_dataset_nicols_data_noOutlier <-
+  filtered_dataset_nicols_data_noOutlier[!(
+    filtered_dataset_nicols_data_noOutlier$V1 == "P2220198" |
+      filtered_dataset_nicols_data_noOutlier$V2 == "P2220198"
+  ),]
+
+filtered_dataset_nicols_data_WithOutlier <-
+  filtered_dataset_nicols_data[!(
+    filtered_dataset_nicols_data$V1 == "R2210139" |
+      filtered_dataset_nicols_data$V2 == "R2210139"
+  ),]
+
+average_nicols_noOutlier <-
+  mean(filtered_dataset_nicols_data_noOutlier$V3)
+
+print(average_nicols_noOutlier)
+
+average_ss14 <- mean(filtered_dataset_ss14$V3)
+
+print(average_ss14)
+
+average_nicols_noOutlier <-
+  mean(filtered_dataset_nicols_data_noOutlier$V3)
+median_nicols_noOutlier <-
+  median(filtered_dataset_nicols_data_noOutlier$V3)
+average_nicols_withOutlier <-
+  mean(filtered_dataset_nicols_data_WithOutlier$V3)
+
+print(average_nicols_noOutlier)
+
+print(max(filtered_dataset_ss14$V3, na.rm = TRUE))
+print(min(filtered_dataset_ss14$V3, na.rm = TRUE))
+
+print(max(filtered_dataset_nicols_data_noOutlier$V3, na.rm = TRUE))
+print(min(filtered_dataset_nicols_data_noOutlier$V3, na.rm = TRUE))
+
+filtered_dataset_ss14_cluster_D <-
+  filtered_dataset_ss14[!(filtered_dataset_ss14$V1 == "UW15939" |
+                            filtered_dataset_ss14$V2 == "UW15939"),]
+filtered_dataset_ss14_cluster_D <-
+  filtered_dataset_ss14_cluster_D[!(
+    filtered_dataset_ss14_cluster_D$V1 == "R2110091" |
+      filtered_dataset_ss14_cluster_D$V2 == "R2110091"
+  ),]
+filtered_dataset_ss14_cluster_D <-
+  filtered_dataset_ss14_cluster_D[!(
+    filtered_dataset_ss14_cluster_D$V1 == "R2110052" |
+      filtered_dataset_ss14_cluster_D$V2 == "R2110052"
+  ),]
+filtered_dataset_ss14_cluster_D <-
+  filtered_dataset_ss14_cluster_D[!(
+    filtered_dataset_ss14_cluster_D$V1 == "P2110052" |
+      filtered_dataset_ss14_cluster_D$V2 == "P2110052"
+  ),]
+filtered_dataset_ss14_cluster_D <-
+  filtered_dataset_ss14_cluster_D[!(
+    filtered_dataset_ss14_cluster_D$V1 == "P2120120" |
+      filtered_dataset_ss14_cluster_D$V2 == "P2120120"
+  ),]
+filtered_dataset_ss14_cluster_D <-
+  filtered_dataset_ss14_cluster_D[!(
+    filtered_dataset_ss14_cluster_D$V1 == "P2120116" |
+      filtered_dataset_ss14_cluster_D$V2 == "P2120116"
+  ),]
+filtered_dataset_ss14_cluster_D <-
+  filtered_dataset_ss14_cluster_D[!(
+    filtered_dataset_ss14_cluster_D$V1 == "UW16057L" |
+      filtered_dataset_ss14_cluster_D$V2 == "UW16057L"
+  ),]
+
+median_nicols_noOutlier <-
+  median(filtered_dataset_ss14_cluster_D$V3)
+average_nicols_withOutlier <-
+  mean(filtered_dataset_ss14_cluster_D$V3)
+
+```
+
+#reorder SNP tsv columns
+```{r setup, include = FALSE}
+
+col.order <- rev(sample_order)
+
+temp <- col.order[22]
+col.order[22] <- col.order[21]
+col.order[21] <- temp
+
+SNP_Dist_Heatmap <-
+  read.csv(
+    "/Users/administrator/Desktop/Seattle_TP_Paper/Seattle_TP_SNP_Dists.tsv",
+    header = FALSE,
+    sep = "\t"
+  )
+
+SNP_Dist_Heatmap <- as.data.frame(SNP_Dist_Heatmap)
+rownames(SNP_Dist_Heatmap) <- SNP_Dist_Heatmap[, 1]
+SNP_Dist_Heatmap[, 1] <- NULL
+colnames(SNP_Dist_Heatmap) <- SNP_Dist_Heatmap[1,]
+SNP_Dist_Heatmap = SNP_Dist_Heatmap[-1,]
+SNP_Dist_Heatmap_2 <- as.matrix(SNP_Dist_Heatmap)
+
+SNP_Dist_Heatmap_2 <- SNP_Dist_Heatmap_2[col.order, col.order]
+
+colnames(SNP_Dist_Heatmap_2)
+
+write.csv(SNP_Dist_Heatmap_2,
+          "~/Downloads/SNP_Heatmap_reordered_04_27_23.csv",
+          row.names = TRUE)
+
+```
