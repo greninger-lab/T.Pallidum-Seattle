@@ -7,7 +7,7 @@ output:
 date: "2023-04-27"
 ---
 
-<!-- #Script to write tree; Fig 2 -->
+#Figure 2. Maximum likelihood phylogeny of TP strains in Seattle from 2021-2022.
 ```{r fig2all, fig.height=7, fig.width=6, message=FALSE, warning=FALSE}
 
 library(tidyverse)
@@ -95,6 +95,14 @@ metadata <-
 lapply(metadata, table)
 
 sample_order <- tips$label
+
+print(sample_order[9])
+print(sample_order[10])
+
+placeholder <- sample_order[9]
+
+sample_order[9] <- sample_order[10]
+sample_order[10] <- placeholder
 
 metadata$Sample <- factor(metadata$Sample, levels = sample_order)
 
@@ -585,7 +593,7 @@ dev.off()
 
 ```
 
-#Ttime vs copies graph; Fig 1
+#Figure 1. Relationship between TP genome copies in extracted DNA, rTMA time on Aptima assay, and ability to recover complete genome. 
 ```{r fig2all_2, fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
 
 library(ggeasy)
@@ -678,8 +686,9 @@ dev.off()
 print(a)
 
 ```
-#summary table 
-```{r setup, include=FALSE}
+
+#Table1 – Demographic and Clinical Summary for 24 Individuals for which a TP Genome was Recovered 
+```{r}
 
 library(dplyr)
 library(gtsummary)
@@ -690,7 +699,7 @@ library(tidyverse)
 
 metadata2 <-
   read.csv(
-    "/Users/administrator/Desktop/Matt_G_TP/Matt_G_SeattleSix_New_03032023/Masking_Regions/masked_regions/wholeGeome/WG_Tree/ggtree/metadata_NoReferences.csv",
+    "/Users/administrator/Desktop/Matt_G_TP/Matt_G_SeattleSix_New_03032023/Masking_Regions/masked_regions/wholeGeome/WG_Tree/ggtree/metadata_SumTable.csv",
     header = TRUE
   )
 
@@ -711,11 +720,14 @@ variable_labels <- c(
 sum <-
   tbl_summary(metadata2, missing = "no", label = variable_labels)
 
+sum
+
 ```
 
-#SNP distances caluculator
-```{r setup, include=FALSE}
+#SNP distances calculator
+```{r}
 
+#import snp table as molten
 SNP_Dist <-
   read.csv(
     "/Users/administrator/Desktop/Seattle_TP_Paper/SNP_Dist_molten.tsv",
@@ -723,9 +735,11 @@ SNP_Dist <-
     sep = "\t",
     skip = 1
   )
+
+#import metadata labels 
 metadata_old <-
   read.csv(
-    "/Users/administrator/Desktop/Matt_G_TP/Matt_G_SeattleSix_New_03032023/Masking_Regions/masked_regions/wholeGeome/WG_Tree/ggtree/metadata_old.csv",
+    "/Users/administrator/Desktop/Matt_G_TP/Matt_G_SeattleSix_New_03032023/Masking_Regions/masked_regions/wholeGeome/WG_Tree/ggtree/metadata_snp.csv",
     header = TRUE
   )
 
@@ -752,6 +766,9 @@ SNP_Dist_NoReference <-
   SNP_Dist_NoReference[!(SNP_Dist_NoReference$V1 == "NC_021508" |
                            SNP_Dist_NoReference$V2 == "NC_021508"),]
 
+#remove same sample on each column
+SNP_Dist_NoReference <- subset(SNP_Dist_NoReference, (as.character(V1) != as.character(V2)))
+
 # filter the dataset to include only rows where both sample 1 and sample 2 are present in the dataset
 filtered_dataset_ss14 <-
   SNP_Dist_NoReference[SNP_Dist_NoReference$V1 %in% ss14_data$Sample &
@@ -774,16 +791,24 @@ filtered_dataset_nicols_data <-
     filtered_dataset_nicols_data$V1 == "R2210139" |
       filtered_dataset_nicols_data$V2 == "R2210139"
   ),]
+filtered_dataset_nicols_data <-
+  filtered_dataset_nicols_data[!(
+    filtered_dataset_nicols_data$V1 == "P2220006" |
+      filtered_dataset_nicols_data$V2 == "P2220006"
+  ),]
 filtered_dataset_ss14 <-
   filtered_dataset_ss14[!(filtered_dataset_ss14$V1 == "P2220282" |
                             filtered_dataset_ss14$V2 == "P2220282"),]
 
+#caluculate averages per set
 average_ss14 <- mean(filtered_dataset_ss14$V3)
 average_nicols <- mean(filtered_dataset_nicols_data$V3)
 
 print(average_ss14)
 
 print(average_nicols)
+
+#remove cluster D from Nichols samples; Line : 227, calculate mean and median
 
 filtered_dataset_nicols_data_noOutlier <-
   filtered_dataset_nicols_data[!(
@@ -802,9 +827,12 @@ filtered_dataset_nicols_data_WithOutlier <-
       filtered_dataset_nicols_data$V2 == "R2210139"
   ),]
 
-average_nicols_noOutlier <-
-  mean(filtered_dataset_nicols_data_noOutlier$V3)
+average_nicols_noOutlier <- mean(filtered_dataset_nicols_data_noOutlier$V3)
 
+print(average_nicols_noOutlier)
+print(median((filtered_dataset_nicols_data_noOutlier$V3)))
+
+#cluster B mean
 print(average_nicols_noOutlier)
 
 average_ss14 <- mean(filtered_dataset_ss14$V3)
@@ -826,49 +854,260 @@ print(min(filtered_dataset_ss14$V3, na.rm = TRUE))
 print(max(filtered_dataset_nicols_data_noOutlier$V3, na.rm = TRUE))
 print(min(filtered_dataset_nicols_data_noOutlier$V3, na.rm = TRUE))
 
-filtered_dataset_ss14_cluster_D <-
+#cluster B vs cluster D mean; line : 230
+
+filtered_dataset_nicols_D_vs_B <-
+  filtered_dataset_nicols_data_WithOutlier[(filtered_dataset_nicols_data_WithOutlier$V1 == "R2210139" | filtered_dataset_nicols_data_WithOutlier$V1 == "P2220198" | filtered_dataset_nicols_data_WithOutlier$V2 == "R2210139" | filtered_dataset_nicols_data_WithOutlier$V2 == "P2220198"),]
+
+mean(filtered_dataset_nicols_D_vs_B$V3)
+
+#Cluster F vs two MSM samples D
+
+filtered_dataset_ss14_MSM_vs_F <-
   filtered_dataset_ss14[!(filtered_dataset_ss14$V1 == "UW15939" |
                             filtered_dataset_ss14$V2 == "UW15939"),]
-filtered_dataset_ss14_cluster_D <-
-  filtered_dataset_ss14_cluster_D[!(
-    filtered_dataset_ss14_cluster_D$V1 == "R2110091" |
-      filtered_dataset_ss14_cluster_D$V2 == "R2110091"
+
+filtered_dataset_ss14_MSM_vs_F <-
+  filtered_dataset_ss14_MSM_vs_F[(filtered_dataset_ss14_MSM_vs_F$V1 == "R2110091" | filtered_dataset_ss14_MSM_vs_F$V1 == "R2110052" | filtered_dataset_ss14_MSM_vs_F$V2 == "R2110091" | filtered_dataset_ss14_MSM_vs_F$V2 == "R2110052"),]
+
+filtered_dataset_ss14_MSM_vs_F <-
+  filtered_dataset_ss14_MSM_vs_F[!(
+    filtered_dataset_ss14_MSM_vs_F$V1 == "P2120120" |
+      filtered_dataset_ss14_MSM_vs_F$V2 == "P2120120"
   ),]
-filtered_dataset_ss14_cluster_D <-
-  filtered_dataset_ss14_cluster_D[!(
-    filtered_dataset_ss14_cluster_D$V1 == "R2110052" |
-      filtered_dataset_ss14_cluster_D$V2 == "R2110052"
+filtered_dataset_ss14_MSM_vs_F <-
+  filtered_dataset_ss14_MSM_vs_F[!(
+    filtered_dataset_ss14_MSM_vs_F$V1 == "P2120116" |
+      filtered_dataset_ss14_MSM_vs_F$V2 == "P2120116"
   ),]
-filtered_dataset_ss14_cluster_D <-
-  filtered_dataset_ss14_cluster_D[!(
-    filtered_dataset_ss14_cluster_D$V1 == "P2110052" |
-      filtered_dataset_ss14_cluster_D$V2 == "P2110052"
-  ),]
-filtered_dataset_ss14_cluster_D <-
-  filtered_dataset_ss14_cluster_D[!(
-    filtered_dataset_ss14_cluster_D$V1 == "P2120120" |
-      filtered_dataset_ss14_cluster_D$V2 == "P2120120"
-  ),]
-filtered_dataset_ss14_cluster_D <-
-  filtered_dataset_ss14_cluster_D[!(
-    filtered_dataset_ss14_cluster_D$V1 == "P2120116" |
-      filtered_dataset_ss14_cluster_D$V2 == "P2120116"
-  ),]
-filtered_dataset_ss14_cluster_D <-
-  filtered_dataset_ss14_cluster_D[!(
-    filtered_dataset_ss14_cluster_D$V1 == "UW16057L" |
-      filtered_dataset_ss14_cluster_D$V2 == "UW16057L"
+filtered_dataset_ss14_MSM_vs_F <-
+  filtered_dataset_ss14_MSM_vs_F[!(
+    filtered_dataset_ss14_MSM_vs_F$V1 == "UW16057L" |
+      filtered_dataset_ss14_MSM_vs_F$V2 == "UW16057L"
   ),]
 
-median_nicols_noOutlier <-
-  median(filtered_dataset_ss14_cluster_D$V3)
-average_nicols_withOutlier <-
-  mean(filtered_dataset_ss14_cluster_D$V3)
+filtered_dataset_ss14_MSM_vs_F <-
+  filtered_dataset_ss14_MSM_vs_F[!(
+    filtered_dataset_ss14_MSM_vs_F$V1 == "R2110091" &
+      filtered_dataset_ss14_MSM_vs_F$V2 == "R2110052"
+  ),]
+
+filtered_dataset_ss14_MSM_vs_F <-
+  filtered_dataset_ss14_MSM_vs_F[!(
+    filtered_dataset_ss14_MSM_vs_F$V1 == "R2110052" &
+      filtered_dataset_ss14_MSM_vs_F$V2 == "R2110091"
+  ),]
+
+mean(filtered_dataset_ss14_MSM_vs_F$V3)
+
+
+#SS14 is cluster F mean and median; line 215
+filtered_dataset_Cluster_F <-
+  filtered_dataset_ss14[!(filtered_dataset_ss14$V1 == "UW15939" |
+                            filtered_dataset_ss14$V2 == "UW15939"),]
+
+filtered_dataset_Cluster_F <-
+  filtered_dataset_Cluster_F[!(
+    filtered_dataset_Cluster_F$V1 == "R2110091" |
+      filtered_dataset_Cluster_F$V2 == "R2110091"
+  ),]
+filtered_dataset_Cluster_F <-
+  filtered_dataset_Cluster_F[!(
+    filtered_dataset_Cluster_F$V1 == "R2110052" |
+      filtered_dataset_Cluster_F$V2 == "R2110052"
+  ),]
+
+filtered_dataset_Cluster_F <-
+  filtered_dataset_Cluster_F[!(
+    filtered_dataset_Cluster_F$V1 == "P2120120" |
+      filtered_dataset_Cluster_F$V2 == "P2120120"
+  ),]
+filtered_dataset_Cluster_F <-
+  filtered_dataset_Cluster_F[!(
+    filtered_dataset_Cluster_F$V1 == "P2120116" |
+      filtered_dataset_Cluster_F$V2 == "P2120116"
+  ),]
+filtered_dataset_Cluster_F <-
+  filtered_dataset_Cluster_F[!(
+    filtered_dataset_Cluster_F$V1 == "UW16057L" |
+      filtered_dataset_Cluster_F$V2 == "UW16057L"
+  ),]
+
+filtered_dataset_Cluster_F <-
+  filtered_dataset_Cluster_F[!(
+    filtered_dataset_Cluster_F$V1 == "R2110091" &
+      filtered_dataset_Cluster_F$V2 == "R2110052"
+  ),]
+
+filtered_dataset_Cluster_F <-
+  filtered_dataset_Cluster_F[!(
+    filtered_dataset_Cluster_F$V1 == "R2110052" &
+      filtered_dataset_Cluster_F$V2 == "R2110091"
+  ),]
+
+mean(filtered_dataset_Cluster_F$V3)
+median(filtered_dataset_Cluster_F$V3)
+
+#Cluster F vs Four MSM samples mean, median and range; line 219
+
+filtered_dataset_ss14_MSM_Four__vs_F <-
+  filtered_dataset_ss14[!(filtered_dataset_ss14$V1 == "UW15939" |
+                            filtered_dataset_ss14$V2 == "UW15939"),]
+
+filtered_dataset_ss14_MSM_Four__vs_F <-
+  filtered_dataset_ss14_MSM_Four__vs_F[(filtered_dataset_ss14_MSM_Four__vs_F$V1 == "R2110091" | filtered_dataset_ss14_MSM_Four__vs_F$V1 == "R2110052" | filtered_dataset_ss14_MSM_Four__vs_F$V2 == "R2110091" | filtered_dataset_ss14_MSM_Four__vs_F$V2 == "R2110052" | filtered_dataset_ss14_MSM_Four__vs_F$V1 == "UW16057L" | filtered_dataset_ss14_MSM_Four__vs_F$V1 == "P2120116" | filtered_dataset_ss14_MSM_Four__vs_F$V2 == "UW16057L" | filtered_dataset_ss14_MSM_Four__vs_F$V2 == "P2120116"),]
+
+filtered_dataset_ss14_MSM_Four__vs_F <-
+  filtered_dataset_ss14_MSM_Four__vs_F[!(
+    filtered_dataset_ss14_MSM_Four__vs_F$V1 == "P2120120" |
+      filtered_dataset_ss14_MSM_Four__vs_F$V2 == "P2120120"
+  ),]
+
+filtered_dataset_ss14_MSM_Four__vs_F <-
+  filtered_dataset_ss14_MSM_Four__vs_F[!(
+    filtered_dataset_ss14_MSM_Four__vs_F$V1 == "R2110091" &
+      filtered_dataset_ss14_MSM_Four__vs_F$V2 == "R2110052"
+  ),]
+
+filtered_dataset_ss14_MSM_Four__vs_F <-
+  filtered_dataset_ss14_MSM_Four__vs_F[!(
+    filtered_dataset_ss14_MSM_Four__vs_F$V1 == "R2110052" &
+      filtered_dataset_ss14_MSM_Four__vs_F$V2 == "R2110091"
+  ),]
+
+filtered_dataset_ss14_MSM_Four__vs_F <-
+  filtered_dataset_ss14_MSM_Four__vs_F[!(
+    filtered_dataset_ss14_MSM_Four__vs_F$V1 == "UW16057L" &
+      filtered_dataset_ss14_MSM_Four__vs_F$V2 == "P2120116"
+  ),]
+
+filtered_dataset_ss14_MSM_Four__vs_F <-
+  filtered_dataset_ss14_MSM_Four__vs_F[!(
+    filtered_dataset_ss14_MSM_Four__vs_F$V1 == "P2120116" &
+      filtered_dataset_ss14_MSM_Four__vs_F$V2 == "UW16057L"
+  ),]
+
+filtered_dataset_ss14_MSM_Four__vs_F <-
+  filtered_dataset_ss14_MSM_Four__vs_F[!(
+    filtered_dataset_ss14_MSM_Four__vs_F$V1 == "R2110091" &
+      filtered_dataset_ss14_MSM_Four__vs_F$V2 == "P2120116"
+  ),]
+
+filtered_dataset_ss14_MSM_Four__vs_F <-
+  filtered_dataset_ss14_MSM_Four__vs_F[!(
+    filtered_dataset_ss14_MSM_Four__vs_F$V1 == "P2120116" &
+      filtered_dataset_ss14_MSM_Four__vs_F$V2 == "R2110091"
+  ),]
+
+filtered_dataset_ss14_MSM_Four__vs_F <-
+  filtered_dataset_ss14_MSM_Four__vs_F[!(
+    filtered_dataset_ss14_MSM_Four__vs_F$V1 == "R2110091" &
+      filtered_dataset_ss14_MSM_Four__vs_F$V2 == "UW16057L"
+  ),]
+
+filtered_dataset_ss14_MSM_Four__vs_F <-
+  filtered_dataset_ss14_MSM_Four__vs_F[!(
+    filtered_dataset_ss14_MSM_Four__vs_F$V1 == "UW16057L" &
+      filtered_dataset_ss14_MSM_Four__vs_F$V2 == "R2110091"
+  ),]
+
+filtered_dataset_ss14_MSM_Four__vs_F <-
+  filtered_dataset_ss14_MSM_Four__vs_F[!(
+    filtered_dataset_ss14_MSM_Four__vs_F$V1 == "R2110052" &
+      filtered_dataset_ss14_MSM_Four__vs_F$V2 == "UW16057L"
+  ),]
+
+filtered_dataset_ss14_MSM_Four__vs_F <-
+  filtered_dataset_ss14_MSM_Four__vs_F[!(
+    filtered_dataset_ss14_MSM_Four__vs_F$V1 == "UW16057L" &
+      filtered_dataset_ss14_MSM_Four__vs_F$V2 == "R2110052"
+  ),]
+
+filtered_dataset_ss14_MSM_Four__vs_F <-
+  filtered_dataset_ss14_MSM_Four__vs_F[!(
+    filtered_dataset_ss14_MSM_Four__vs_F$V1 == "R2110052" &
+      filtered_dataset_ss14_MSM_Four__vs_F$V2 == "P2120116"
+  ),]
+
+filtered_dataset_ss14_MSM_Four__vs_F <-
+  filtered_dataset_ss14_MSM_Four__vs_F[!(
+    filtered_dataset_ss14_MSM_Four__vs_F$V1 == "P2120116" &
+      filtered_dataset_ss14_MSM_Four__vs_F$V2 == "R2110052"
+  ),]
+
+mean(filtered_dataset_ss14_MSM_Four__vs_F$V3)
+median(filtered_dataset_ss14_MSM_Four__vs_F$V3)
+min(filtered_dataset_ss14_MSM_Four__vs_F$V3)
+max(filtered_dataset_ss14_MSM_Four__vs_F$V3)
+
+#Just four MSM mean, median, randge; line 221
+
+filtered_dataset_ss14_justFour_MSM <-
+  filtered_dataset_ss14[(filtered_dataset_ss14$V1 == "R2110091" | filtered_dataset_ss14$V1 == "R2110052" | filtered_dataset_ss14$V2 == "R2110091" | filtered_dataset_ss14$V2 == "R2110052" | filtered_dataset_ss14$V1 == "UW16057L" | filtered_dataset_ss14$V1 == "P2120116" | filtered_dataset_ss14$V2 == "UW16057L" | filtered_dataset_ss14$V2 == "P2120116"),]
+
+filtered_dataset_ss14_justFour_MSM <-
+  filtered_dataset_ss14_justFour_MSM[!(
+    filtered_dataset_ss14_justFour_MSM$V1 == "V2140015" |
+      filtered_dataset_ss14_justFour_MSM$V2 == "V2140015"
+  ),]
+
+filtered_dataset_ss14_justFour_MSM <-
+  filtered_dataset_ss14_justFour_MSM[!(
+    filtered_dataset_ss14_justFour_MSM$V1 == "V2140014" |
+      filtered_dataset_ss14_justFour_MSM$V2 == "V2140014"
+  ),]
+
+filtered_dataset_ss14_justFour_MSM <-
+  filtered_dataset_ss14_justFour_MSM[!(
+    filtered_dataset_ss14_justFour_MSM$V1 == "V2140005" |
+      filtered_dataset_ss14_justFour_MSM$V2 == "V2140005"
+  ),]
+
+filtered_dataset_ss14_justFour_MSM <-
+  filtered_dataset_ss14_justFour_MSM[!(
+    filtered_dataset_ss14_justFour_MSM$V1 == "R2210209" |
+      filtered_dataset_ss14_justFour_MSM$V2 == "R2210209"
+  ),]
+
+filtered_dataset_ss14_justFour_MSM <-
+  filtered_dataset_ss14_justFour_MSM[!(
+    filtered_dataset_ss14_justFour_MSM$V1 == "P2220282" |
+      filtered_dataset_ss14_justFour_MSM$V2 == "P2220282"
+  ),]
+
+filtered_dataset_ss14_justFour_MSM <-
+  filtered_dataset_ss14_justFour_MSM[!(
+    filtered_dataset_ss14_justFour_MSM$V1 == "V2140001" |
+      filtered_dataset_ss14_justFour_MSM$V2 == "V2140001"
+  ),]
+
+filtered_dataset_ss14_justFour_MSM <-
+  filtered_dataset_ss14_justFour_MSM[!(
+    filtered_dataset_ss14_justFour_MSM$V1 == "UW15970L" |
+      filtered_dataset_ss14_justFour_MSM$V2 == "UW15970L"
+  ),]
+
+filtered_dataset_ss14_justFour_MSM <-
+  filtered_dataset_ss14_justFour_MSM[!(
+    filtered_dataset_ss14_justFour_MSM$V1 == "UW15939" |
+      filtered_dataset_ss14_justFour_MSM$V2 == "UW15939"
+  ),]
+
+filtered_dataset_ss14_justFour_MSM <-
+  filtered_dataset_ss14_justFour_MSM[!(
+    filtered_dataset_ss14_justFour_MSM$V1 == "P2120120" |
+      filtered_dataset_ss14_justFour_MSM$V2 == "P2120120"
+  ),]
+
+mean(filtered_dataset_ss14_justFour_MSM$V3)
+median(filtered_dataset_ss14_justFour_MSM$V3)
+min(filtered_dataset_ss14_justFour_MSM$V3)
+max(filtered_dataset_ss14_justFour_MSM$V3)
 
 ```
 
 #reorder SNP tsv columns
-```{r setup, include = FALSE}
+```{r}
 
 col.order <- rev(sample_order)
 
