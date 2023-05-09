@@ -1,4 +1,5 @@
 CoverageGraph.py is a python program for generating figure 4: deletion annotation and coverage graphs. 
 
-.depth are depth files generated from bamtools
+*.depth are depth files generated from bamtools one is zipped as it is too large to upload to github and must be unzipped before running the scripts
 
+SS14_tprD_new_2.gb is an edited annotation file used to generate deletion annotation for TPRD
