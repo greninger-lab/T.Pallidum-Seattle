@@ -8,4 +8,4 @@ Figure_4_Deletion for generating figure 4, coverage graph + genenome annotation 
 
 R_script includes T.PallidumSeattle.Rmd a collection of rscripts for caluculating SNP distances, generating PCR vs Ttime fig 1 and Phylogenetic tree fig 2.
 
-
+TPRK_Analysis_code_and_inputs includes scripts to generate figures for TPRK analysis
