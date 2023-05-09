@@ -1,0 +1,29 @@
+tprk_sample,n,total_n,NonKO_percent,KO_percent,Azithromycin Resistance,Sex,MSM,tprK Donor Site Deletion,Strain,IV Drug Usage,Methamphetamine Use (Recent - Within a Year),Age Group,Race,Sample Swab Site,Disease Stage,Sample Pair
+P2120045,21,28,75,25,Yes,M,Yes,No,Nichols,Unknown,No,45-54,Hispanic,Oral/Throat,Secondary,No
+P2120116,65,69,94.20289855072464,5.79710144927536,Yes,M,Yes,No,SS14,Yes,No,30-34,Black,Oral/Throat,Primary,No
+P2120119,27,31,87.09677419354838,12.903225806451616,Yes,M,Yes,No,Nichols,Unknown,Unknown,30-34,White,Oral/Throat,Primary,No
+P2120120,23,28,82.14285714285714,17.85714285714286,Yes,F,N/A,No,SS14,Unknown,Yes,30-34,White,Oral/Throat,Late or unknown duration,No
+P2120135,50,56,89.28571428571429,10.714285714285708,Yes,M,Yes,No,Nichols,Unknown,Unknown,20-24,Asian,Oral/Throat,Secondary,1
+P2120167,13,14,92.85714285714286,7.142857142857139,Yes,M,Yes,Yes,Nichols,Yes,No,20-24,White,Oral/Throat,Secondary,No
+P2220006,34,43,79.06976744186046,20.930232558139537,Yes,M,Yes,No,Nichols,Yes,No,25-29,Hispanic,Oral/Throat,Primary,No
+P2220168,20,21,95.23809523809523,4.761904761904773,Yes,M,Yes,Yes,Nichols,Yes,No,35-44,White,Oral/Throat,Secondary,No
+P2220198,24,29,82.75862068965517,17.241379310344826,Yes,M,Yes,No,Nichols,Unknown,Unknown,30-34,Asian,Oral/Throat,Secondary,2
+P2220227,30,34,88.23529411764706,11.764705882352942,Yes,M,Yes,No,Nichols,No,No,25-29,White,Oral/Throat,Secondary,No
+P2220282,23,23,100,0,Yes,F,N/A,No,SS14,Unknown,Yes,30-34,Unknown,Oral/Throat,Primary,3
+R2110052,8,10,80,20,Yes,M,Yes,No,SS14,No,No,45-54,White,Rectal,Late or unknown duration,No
+R2110091,54,67,80.59701492537313,19.40298507462687,Yes,M,Yes,No,SS14,No,No,45-54,White,Rectal,Primary,No
+R2110099,15,18,83.33333333333334,16.666666666666657,Yes,M,Yes,No,Nichols,Unknown,Unknown,25-29,Hispanic,Rectal,Early latent,No
+R2110111,32,36,88.88888888888889,11.111111111111114,Yes,M,Yes,No,Nichols,Unknown,Unknown,20-24,Asian,Rectal,Secondary,1
+R2110122,7,9,77.77777777777779,22.222222222222214,Yes,M,Yes,No,Nichols,Unknown,Unknown,30-34,White,Rectal,Early latent,No
+R2210139,20,25,80,20,Yes,M,Yes,No,Nichols,Unknown,Unknown,30-34,Asian,Rectal,Secondary,2
+R2210209,20,23,86.95652173913044,13.043478260869563,Yes,F,N/A,No,SS14,Yes,Yes,30-34,Unknown,Rectal,Primary,3
+UW15939L,33,48,68.75,31.25,Yes,M,No,No,SS14,Unknown,Yes,45-54,white,Rectal,Primary,No
+UW15953O,31,34,91.17647058823529,8.82352941176471,Yes,M,Yes,No,Nichols,Unknown,No,35-44,Asian,Oral/Throat,Secondary,No
+UW15970L,17,17,100,0,Yes,M,No,No,SS14,Unknown,No,55-64,NHPI,Lesion,Primary,No
+UW15977O,12,13,92.3076923076923,7.692307692307693,Yes,M,Yes,No,Nichols,Unknown,Yes,25-29,white,Oral/Throat,Primary,No
+UW15993L,23,23,100,0,Yes,M,Yes,Yes,Nichols,Unknown,Yes,35-44,white,Papule near anus,Secondary,No
+UW15993O,9,10,90,10,Yes,M,Yes,Yes,Nichols,Unknown,Yes,35-44,white,Oral/Throat,Secondary,No
+UW16057L,25,27,92.5925925925926,7.407407407407405,Yes,M,Yes,No,SS14,Unknown,No,55-64,white,Lesion,Primary,No
+V2140001,15,19,78.94736842105263,21.05263157894737,Yes,F,N/A,No,SS14,Yes,Unknown,35-44,Hispanic,Vaginal,Secondary,No
+V2140005,14,15,93.33333333333333,6.666666666666671,Yes,F,N/A,No,SS14,Yes,Yes,25-29,White,Vaginal,Primary,No
+V2140015,15,16,93.75,6.25,Yes,F,N/A,No,SS14,Unknown,Yes,35-44,Black,Vaginal,Secondary,No

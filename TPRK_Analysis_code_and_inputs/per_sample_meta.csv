@@ -1,0 +1,30 @@
+﻿Sample,Azithromycin Resistance,Sex,MSM,tprK Donor Site Deletion,Lineage,IV Drug Usage,Methamphetamine Use (Recent - Within a Year),Age Group,Race,Sample Swab Site,Disease Stage,Sample Pair,y,input_copies,tprk_complete
+P-21-20167,Yes,M,Yes,Yes,Nichols,Yes,No,20-24,White,Oral/Throat,Secondary,No,30,638,yes
+UW15993O,Yes,M,Yes,Yes,Nichols,Unknown,Yes,35-44,white,Oral/Throat,Secondary,No,29.5,74.48,yes
+UW15993L,Yes,M,Yes,Yes,Nichols,Unknown,Yes,35-44,white,Papule near anus,Secondary,No,29,884.71,yes
+P-22-20168,Yes,M,Yes,Yes,Nichols,Yes,No,35-44,White,Oral/Throat,Secondary,No,28,1926,yes
+UW15953O,Yes,M,Yes,No,Nichols,Unknown,No,35-44,Asian,Oral/Throat,Secondary,No,27,1047.91,yes
+R-21-10122,Yes,M,Yes,No,Nichols,Unknown,Unknown,30-34,White,Rectal,Early latent,No,26,1130.84,yes
+P-22-20227,Yes,M,Yes,No,Nichols,No,No,25-29,White,Oral/Throat,Secondary,No,25,504,yes
+P-21-20119,Yes,M,Yes,No,Nichols,Unknown,Unknown,30-34,White,Oral/Throat,Primary,No,24,317,yes
+P-22-20006,Yes,M,Yes,No,Nichols,Yes,No,25-29,Hispanic,Oral/Throat,Primary,4,23,838,yes
+UW15977O,Yes,M,Yes,No,Nichols,Unknown,Yes,25-29,white,Oral/Throat,Primary,4,22,429.45,yes
+P-21-20135,Yes,M,Yes,No,Nichols,Unknown,Unknown,20-24,Asian,Oral/Throat,Secondary,1,21,1430.79,yes
+R-21-10111,Yes,M,Yes,No,Nichols,Unknown,Unknown,20-24,Asian,Rectal,Secondary,1,20,1003,yes
+R-21-10099,Yes,M,Yes,No,Nichols,Unknown,Unknown,25-29,Hispanic,Rectal,Early latent,No,19,266.56,yes
+P-21-20045,Yes,M,Yes,No,Nichols,Unknown,No,45-54,Hispanic,Oral/Throat,Secondary,No,18,150.13,yes
+R-22-10139,Yes,M,Yes,No,Nichols,Unknown,Unknown,30-34,Asian,Rectal,Secondary,2,16,551,yes
+P-22-20198,Yes,M,Yes,No,Nichols,Unknown,Unknown,30-34,Asian,Oral/Throat,Secondary,2,15,376,yes
+V-21-40015,Yes,F,N/A,No,SS14,Unknown,Yes,35-44,Black,Vaginal,Secondary,No,14,165.32,yes
+V-21-40014,Yes,F,N/A,No,SS14,Unknown,Yes,20-24,Hispanic,Vaginal,Late or unknown duration,No,13,425.51,no
+V-21-40005,Yes,F,N/A,No,SS14,Yes,Yes,25-29,White,Vaginal,Primary,No,12,2078,yes
+R-22-10209,Yes,F,N/A,No,SS14,Yes,Yes,30-34,Unknown,Rectal,Primary,No,11,1685,yes
+P-22-20282,Yes,F,N/A,No,SS14,Yes,Yes,30-34,Unknown,Oral/Throat,Primary,No,10,1204,yes
+V-21-40001,Yes,F,N/A,No,SS14,Yes,Unknown,35-44,Hispanic,Vaginal,Secondary,No,9,606,yes
+UW15970L,Yes,M,No,No,SS14,Unknown,No,55-64,NHPI,Lesion,Primary,No,8,1528.8,yes
+UW15939L,Yes,M,No,No,SS14,Unknown,Yes,45-54,white,Rectal,Primary,No,7,757.58,yes
+R-21-10091,Yes,M,Yes,No,SS14,No,No,45-54,White,Rectal,Primary,No,6,1977,yes
+R-21-10052,Yes,M,Yes,No,SS14,No,No,45-54,White,Rectal,Late or unknown duration,No,5,392,yes
+P-21-20120,Yes,F,N/A,No,SS14,Unknown,Yes,30-34,White,Oral/Throat,Late or unknown duration,No,4,387,yes
+P-21-20116,Yes,M,Yes,No,SS14,Yes,No,30-34,Black,Oral/Throat,Primary,No,3,574,yes
+UW16057L,Yes,M,Yes,No,SS14,Unknown,No,55-64,white,Lesion,Primary,No,2,477.12,yes
