@@ -8,7 +8,7 @@ UW15970L,Yes,M,N,No,SS14,Unknown,N,55-64,NHPI,Lesion,Primary
 V-21-40001,Yes,F,N/A,No,SS14,Y,Unknown,35-44,Hispanic,Vaginal,Secondary
 V-21-40005,Yes,F,N/A,No,SS14,Y,Y,25-29,White,Vaginal,Primary
 R-21-10091,Yes,M,Y,No,SS14,N,N,45-54,White,Rectal,Primary
-UW15939,Yes,M,N,No,SS14,Unknown,Y,45-54,White,Lesion,Primary
+UW15939L,Yes,M,N,No,SS14,Unknown,Y,45-54,White,Lesion,Primary
 R-21-10052,Yes,M,Y,No,SS14,N,N,45-54,White,Rectal,Late or Unknown duration
 NC_021490,No,M,N/A,No,Nichols,Unknown,Cultured,Cultured,Cultured,Cultured Isolate,Cultured Isolate
 P-22-20198,Yes,M,Y,No,Nichols,Unknown,Unknown,30-34,Asian,Throat,Secondary
@@ -22,7 +22,7 @@ P-21-20167,Yes,M,Y,Yes,Nichols,Y,N,20-24,White,Throat,Secondary
 UW15953,Yes,M,Y,No,Nichols,Unknown,N,35-44,Asian,Throat,Secondary
 P-22-20168,Yes,M,Y,Yes,Nichols,Y,N,35-44,White,Throat,Secondary
 UW15993L,Yes,M,Y,Yes,Nichols,Unknown,Y,35-44,White,Lesion,Secondary
-UW15977O,Yes,M,Y,No,Nichols,Unknown,Y,25-29,White,Throat,Primary
+UW15977O,Yes,M,Y,No,Nichols,Y,Y,25-29,White,Throat,Primary
 V-21-40014,Yes,F,N/A,No,SS14,Unknown,Y,20-24,Hispanic,Vaginal,Late or Unknown duration
 P-21-20135,Yes,M,Y,No,Nichols,Unknown,Unknown,20-24,Asian,Throat,Secondary
 P-22-20282,Yes,F,N/A,No,SS14,Unknown,Y,30-34,Unknown,Throat,Primary
