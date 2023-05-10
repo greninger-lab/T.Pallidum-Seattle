@@ -1040,7 +1040,7 @@ median(filtered_dataset_ss14_MSM_Four__vs_F$V3)
 min(filtered_dataset_ss14_MSM_Four__vs_F$V3)
 max(filtered_dataset_ss14_MSM_Four__vs_F$V3)
 
-#Just four MSM mean, median, randge; line 221
+#Just four MSM mean, median, range; line 221
 
 filtered_dataset_ss14_justFour_MSM <-
   filtered_dataset_ss14[(filtered_dataset_ss14$V1 == "R2110091" | filtered_dataset_ss14$V1 == "R2110052" | filtered_dataset_ss14$V2 == "R2110091" | filtered_dataset_ss14$V2 == "R2110052" | filtered_dataset_ss14$V1 == "UW16057L" | filtered_dataset_ss14$V1 == "P2120116" | filtered_dataset_ss14$V2 == "UW16057L" | filtered_dataset_ss14$V2 == "P2120116"),]
@@ -1103,6 +1103,139 @@ mean(filtered_dataset_ss14_justFour_MSM$V3)
 median(filtered_dataset_ss14_justFour_MSM$V3)
 min(filtered_dataset_ss14_justFour_MSM$V3)
 max(filtered_dataset_ss14_justFour_MSM$V3)
+
+#Just four MSM and lone female sample mean, median, range; line 220
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14[!(filtered_dataset_ss14$V1 == "UW15939" |
+                            filtered_dataset_ss14$V2 == "UW15939"),]
+
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14_MSM_Four_vs_Lone_F[(filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "R2110091" | filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "R2110052" | filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "R2110091" | filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "R2110052" | filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "UW16057L" | filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "P2120116" | filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "UW16057L" | filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "P2120116"),]
+
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14_MSM_Four_vs_Lone_F[!(
+    filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "R2110091" &
+      filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "R2110052"
+  ),]
+
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14_MSM_Four_vs_Lone_F[!(
+    filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "R2110052" &
+      filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "R2110091"
+  ),]
+
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14_MSM_Four_vs_Lone_F[!(
+    filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "UW16057L" &
+      filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "P2120116"
+  ),]
+
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14_MSM_Four_vs_Lone_F[!(
+    filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "P2120116" &
+      filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "UW16057L"
+  ),]
+
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14_MSM_Four_vs_Lone_F[!(
+    filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "R2110091" &
+      filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "P2120116"
+  ),]
+
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14_MSM_Four_vs_Lone_F[!(
+    filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "P2120116" &
+      filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "R2110091"
+  ),]
+
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14_MSM_Four_vs_Lone_F[!(
+    filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "R2110091" &
+      filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "UW16057L"
+  ),]
+
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14_MSM_Four_vs_Lone_F[!(
+    filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "UW16057L" &
+      filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "R2110091"
+  ),]
+
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14_MSM_Four_vs_Lone_F[!(
+    filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "R2110052" &
+      filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "UW16057L"
+  ),]
+
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14_MSM_Four_vs_Lone_F[!(
+    filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "UW16057L" &
+      filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "R2110052"
+  ),]
+
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14_MSM_Four_vs_Lone_F[!(
+    filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "R2110052" &
+      filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "P2120116"
+  ),]
+
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14_MSM_Four_vs_Lone_F[!(
+    filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "P2120116" &
+      filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "R2110052"
+  ),]
+
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14_MSM_Four_vs_Lone_F[!(
+    filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "V2140015" |
+      filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "V2140015"
+  ),]
+
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14_MSM_Four_vs_Lone_F[!(
+    filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "V2140014" |
+      filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "V2140014"
+  ),]
+
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14_MSM_Four_vs_Lone_F[!(
+    filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "V2140005" |
+      filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "V2140005"
+  ),]
+
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14_MSM_Four_vs_Lone_F[!(
+    filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "R2210209" |
+      filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "R2210209"
+  ),]
+
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14_MSM_Four_vs_Lone_F[!(
+    filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "P2220282" |
+      filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "P2220282"
+  ),]
+
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14_MSM_Four_vs_Lone_F[!(
+    filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "V2140001" |
+      filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "V2140001"
+  ),]
+
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14_MSM_Four_vs_Lone_F[!(
+    filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "UW15970L" |
+      filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "UW15970L"
+  ),]
+
+filtered_dataset_ss14_MSM_Four_vs_Lone_F <-
+  filtered_dataset_ss14_MSM_Four_vs_Lone_F[!(
+    filtered_dataset_ss14_MSM_Four_vs_Lone_F$V1 == "UW15939" |
+      filtered_dataset_ss14_MSM_Four_vs_Lone_F$V2 == "UW15939"
+  ),]
+
+mean(filtered_dataset_ss14_MSM_Four_vs_Lone_F$V3)
+median(filtered_dataset_ss14_MSM_Four_vs_Lone_F$V3)
+min(filtered_dataset_ss14_MSM_Four_vs_Lone_F$V3)
+max(filtered_dataset_ss14_MSM_Four_vs_Lone_F$V3)
 
 ```
 
